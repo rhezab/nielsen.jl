@@ -1,0 +1,1 @@
+Julia implementations of the networks described in Nielsen's [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/). `Pkg.add("MNIST")` in the Julia interpreter to get access to the MNIST dataset. 
