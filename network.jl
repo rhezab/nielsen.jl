@@ -8,7 +8,7 @@ end
 # methods on Network struct
 function init(sizes::Vector)
     num_layers = length(sizes)
-    biases = [randn(ns) for ns in sizes[2:end]] # (ns,1) ? 
+    biases = [randn(ns) for ns in sizes[2:end]] # (ns,1) ?
     weights = [randn((sizes[ns],sizes[ns-1])) for ns in 2:num_layers]
     Network(num_layers, sizes, biases, weights)
 end
@@ -33,13 +33,13 @@ function feedforward(net::Network, a::Vector; fpass=false)
     end
 end
 
-function SGD!(net::Network, training_data, epochs, mini_batch_size, 
+function SGD!(net::Network, training_data, epochs, mini_batch_size,
     learning_rate; test_data = [])
     n_test = length(test_data)
     n = length(training_data)
     for i in 1:epochs
         shuffle!(training_data)
-        mini_batches = [training_data[k:k+mini_batch_size-1] for 
+        mini_batches = [training_data[k:k+mini_batch_size-1] for
             k in 1:mini_batch_size:(n-mini_batch_size)]
         for mini_batch in mini_batches
             update_mini_batch!(net, mini_batch, learning_rate)
@@ -62,8 +62,8 @@ function update_mini_batch!(net::Network, mini_batch, learning_rate)
         grad_w += delta_grad_w
     end
     mini_batch_size = length(mini_batch)
-    net.biases -= (learning_rate/mini_batch_size) * grad_b 
-    net.weights -= (learning_rate/mini_batch_size) * grad_w 
+    net.biases -= (learning_rate/mini_batch_size) * grad_b
+    net.weights -= (learning_rate/mini_batch_size) * grad_w
 end
 
 function backprop(net::Network, x::Vector, y::Vector)
@@ -123,11 +123,11 @@ end
 using MNIST
 
 function load_data()
-    train_data = [(trainfeatures(i) / 255.0, vectorize_result(trainlabel(i))) for 
+    train_data = [(trainfeatures(i) / 255.0, vectorize_result(trainlabel(i))) for
         i in 1:50000]
-    validation_data = [(trainfeatures(i) / 255.0, trainlabel(i)) for 
+    validation_data = [(trainfeatures(i) / 255.0, trainlabel(i)) for
         i in 50001:60000]
-    test_data = [(testfeatures(i) / 255.0, testlabel(i)) for 
+    test_data = [(testfeatures(i) / 255.0, testlabel(i)) for
         i in 1:10000]
     (train_data, validation_data, test_data)
 end
@@ -135,6 +135,13 @@ end
 function test_mnist()
     train_data, validation_data, test_data = load_data()
     net = init([784,30,10])
-    SGD!(net, train_data, 30, 10, 3.0, test_data=test_data)
+    SGD!(net, train_data, 30, 10, 0.1, test_data=test_data)
+    net
+end
+
+function test_mnist_quick()
+    train_data, validation_data, test_data = load_data()
+    net = init([784,10])
+    SGD!(net, train_data, 5, 10, 3.0, test_data=test_data)
     net
 end
