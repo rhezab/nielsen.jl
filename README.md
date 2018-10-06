@@ -11,4 +11,6 @@ Here are my notes for the first network implemented in `network.jl`: [The Hello 
 `network2.jl` implements some improvements (everything else is the same):
 - Initialize weights using a Gaussian with mean=0 and stdv=1/sqrt(n_in) where n_in is number of weights connecting in to the neuron
 - Cross-entropy cost function (with L2 regularization)
-- Fully matrix based approach (as described in Chapter 2, be gone for loops!)
+
+Need to do:
+- [Fully matrix based approach](http://neuralnetworksanddeeplearning.com/chap2.html#problem_269962) (be gone for loops!)
